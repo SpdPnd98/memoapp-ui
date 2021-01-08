@@ -1,6 +1,8 @@
 import React from "react";
 // import { Link, Redirect } from "react-router-dom";
 import { MemoboardsProps, MemoboardsState } from "../model/memoboards";
+import { MemosProps } from "../model/memos";
+import Memos from "./memos";
 
 // for prototyping, redirect to masterboard
 
@@ -40,7 +42,16 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
 
     render() {
         if(this.state.isLoaded) {
-            return this.selectMemoboard(this.state.id);
+            const memosProps = [{
+                memoboard: 1,
+                category: -1,
+            }];
+            return (
+                <div>
+                    {this.selectMemoboard(this.state.id)}
+                    <Memos memos={memosProps} />
+                </div>
+            );
         } else {
             return this.loading();
         }
