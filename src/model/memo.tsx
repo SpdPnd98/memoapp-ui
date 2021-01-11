@@ -1,10 +1,22 @@
 export type MemoProps = {
+    id: number;
     title?: string;
     body?: string;
-    category?: number;
-    memoboard: number;
+    category_id?: number;
+    memoboard_id: number;
 }
 
 export type MemoState = {
-    color: string;
+    title: string;
+    body: string;
+    category_id: number;
+    memoboard_id: number;
+}
+
+export type NewMemoProps = {
+    title?: string;
+    body?: string;
+    category_id?: number;
+    memoboard_id: number;
+    update_parent: Function;
 }

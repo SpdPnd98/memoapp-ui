@@ -43,8 +43,9 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
     render() {
         if(this.state.isLoaded) {
             const memosProps = [{
-                memoboard: 1,
-                category: -1,
+                memoboard_id: 1,
+                category_id: 1,
+                id: -1,
             }];
             return (
                 <div>
