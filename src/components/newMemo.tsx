@@ -8,7 +8,7 @@ export class NewMemo extends React.Component<NewMemoProps, MemoState> {
             title: "",
             body: "",
             category_id: 1,
-            memoboard_id: 1,
+            memoboard_id: 1, 
         }
 
         this.onChange = this.onChange.bind(this);

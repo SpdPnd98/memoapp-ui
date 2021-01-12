@@ -1,16 +1,18 @@
 import React from "react";
+import { MemoboardProps } from "../model/memoboard";
 // import { Link, Redirect } from "react-router-dom";
 import { MemoboardsProps, MemoboardsState } from "../model/memoboards";
-import { MemosProps } from "../model/memos";
-import Memos from "./memos";
-
-// for prototyping, redirect to masterboard
+// import { MemosProps } from "../model/memos";
+// import Memos from "./memos";
+import { URL } from "../resources/constants";
+// import { MemosProps } from "../model/memos";
+import Memoboard from "./memoboard";
 
 class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
     constructor(props: MemoboardsProps){
         super(props);
         this.state = {
-            id: 0,
+            id: 1,
             isLoaded: false,
             memoboards: [],
         }
@@ -18,7 +20,7 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
 
     componentDidMount() {
         //local development
-        const url = "http://localhost:3000/v1/memoboards";
+        const url = URL + "/v1/memoboards";
         fetch(url)
             .then(response => {
                 if(response.ok) {
@@ -29,7 +31,7 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
                 throw new Error("Network was not ok.")
             })
             .then((response: any) => { // temporary solution, expected response is MemoboardProps[]
-                const id = 0; // some way to get cached value, default is master memo
+                const id = 1; // some way to get cached value, default is master memo
                 console.log(JSON.stringify(response));
                 this.setState({
                     id: id,
@@ -42,15 +44,9 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
 
     render() {
         if(this.state.isLoaded) {
-            const memosProps = [{
-                memoboard_id: 1,
-                category_id: 1,
-                id: -1,
-            }];
             return (
                 <div>
                     {this.selectMemoboard(this.state.id)}
-                    <Memos memos={memosProps} />
                 </div>
             );
         } else {
@@ -59,19 +55,19 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
     }
 
     selectMemoboard(id: number) {
-        const currentMemoBoard = this.state.memoboards[id];
+        const findMemoboard = this.state.memoboards.filter((memoboard: MemoboardProps) => memoboard.id === id);
+        if (findMemoboard.length === 0) {
+            console.log("error with filter!");
+            console.log("the value of state id is: " + this.state.id)
+            return; // wrong index!
+        }
+        const currentMemoBoard = findMemoboard[0]; //take the first board with matching id
         //fetch corresponding memos
         
         return (
-            <div>
-                <h1>{currentMemoBoard.memoboard_name}</h1>
-                <p>Switch a memoboard:</p>
-            </div>
+            <Memoboard memoboard_name={currentMemoBoard.memoboard_name} 
+                       id={currentMemoBoard.id} />
         );
-    }
-    
-    goToMaster() {
-        return this.selectMemoboard(1);
     }
 
     loading(){
@@ -81,6 +77,12 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
             </div>
         );
     }
+
+    // updateMemos(memos: MemosProps){
+    //     this.setState({
+    //         memos: memos,
+    //     })
+    // }
 }
 
 export default Memoboards;

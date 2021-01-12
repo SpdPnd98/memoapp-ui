@@ -2,6 +2,8 @@ import React from "react";
 import { MemosProps, MemosState } from "../model/memos";
 import { MemoProps } from "../model/memo";
 import { NewMemo } from "./newMemo";
+import Memo from "./memo";
+import { URL } from "../resources/constants";
 
 export default class Memos extends React.Component<MemosProps, MemosState> {
     constructor(props: MemosProps) {
@@ -10,12 +12,16 @@ export default class Memos extends React.Component<MemosProps, MemosState> {
             isLoaded: false,
             memos: [],
         };
+
+        this.updateMemos = this.updateMemos.bind(this);
     }
 
     render () {
-        const newMemoFrame = <NewMemo memoboard_id={this.props.memos[0].memoboard_id} update_parent={this.updateMemos.bind(this)}/>;
+        // this.updateMemos = this.updateMemos.bind(this);
+        const newMemoFrame = <NewMemo memoboard_id = {this.props.memoboard_id} 
+                                    update_parent  = {this.updateMemos}/>;
         if(this.state.isLoaded) {
-            if(this.state.memos === null) {
+            if(this.state.memos.length === 0) {
                 return (
                     <div>
                         <div>
@@ -48,8 +54,7 @@ export default class Memos extends React.Component<MemosProps, MemosState> {
 
     componentDidMount() {
         //fetch all memos
-        const url = "http://localhost:3000/v1/memoboards/" + this.props.memos[0].memoboard_id.toString() + "/memos";
-        // const url = "http://localhost:3000/v1/memoboards/1/memos";
+        const url = URL + "/v1/memoboards/" + this.props.memoboard_id + "/memos";
         console.log(url);
         fetch(url)
             .then(response => {
@@ -66,19 +71,28 @@ export default class Memos extends React.Component<MemosProps, MemosState> {
                 })
             })
             .catch(this.errorDialog);
-        
     }
 
     parseMemo(memo: MemoProps) {
         // parse each memo item
         return (
-            <div className="colorHere" key="{memo.id}"> 
-                <h1>{memo.title}</h1>
-                <p><i>{memo.category_id}</i></p>
-                <p>{memo.body}</p>
-                <button onClick={() => this.deleteMemo(memo.id)}>Delete memo</button>
-            </div>
+            <Memo 
+                id={memo.id}
+                title={memo.title}
+                body={memo.body}
+                category_id={memo.category_id}
+                memoboard_id={memo.memoboard_id}
+                update_parent={this.updateMemos} />
         );
+    }
+
+    updateMemos(response: any) {
+        console.log("updating array...");
+        console.log(JSON.stringify(response));
+        this.setState({
+            isLoaded: true,
+            memos: response.memos,
+        });
     }
 
     errorDialog() {
@@ -88,13 +102,4 @@ export default class Memos extends React.Component<MemosProps, MemosState> {
         // )
     }
 
-    deleteMemo(id: number){
-        console.log("Wait lah");
-    }
-
-    updateMemos(event: any) {
-        this.setState({
-            memos: event.memos,
-        });
-    }
 }

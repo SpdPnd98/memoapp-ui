@@ -2,7 +2,7 @@ import { MemoProps } from "./memo";
 // import { RouteComponentProps } from "react-router-dom";
 
 export type MemosProps = {
-    memos: MemoProps[];
+    memoboard_id: number;
 }
 
 export type MemosState = {
