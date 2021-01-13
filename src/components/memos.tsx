@@ -5,6 +5,8 @@ import { NewMemo } from "./newMemo";
 import Memo from "./memo";
 import { URL } from "../resources/constants";
 
+import { Grid } from "@material-ui/core"
+
 export default class Memos extends React.Component<MemosProps, MemosState> {
     constructor(props: MemosProps) {
         super(props);
@@ -23,24 +25,18 @@ export default class Memos extends React.Component<MemosProps, MemosState> {
         if(this.state.isLoaded) {
             if(this.state.memos.length === 0) {
                 return (
-                    <div>
-                        <div>
-                            {newMemoFrame}
-                        </div>
+                    <Grid container>
+                        {newMemoFrame}
                         <p>You do not have any memos yet.</p>
-                    </div>
+                    </Grid>
                 );
             }
             const allMemos = this.state.memos.map((memo:MemoProps) => this.parseMemo(memo));
             return (
-                <div>
-                    <div>
-                        {newMemoFrame}
-                    </div>
-                    <div>
-                        {allMemos}
-                    </div>
-                </div>
+                <Grid container>
+                    {newMemoFrame}
+                    {allMemos}
+                </Grid>
             );
             
         } else {
@@ -76,13 +72,16 @@ export default class Memos extends React.Component<MemosProps, MemosState> {
     parseMemo(memo: MemoProps) {
         // parse each memo item
         return (
-            <Memo 
+            <Grid item>
+                <Memo 
                 id={memo.id}
                 title={memo.title}
                 body={memo.body}
                 category_id={memo.category_id}
                 memoboard_id={memo.memoboard_id}
                 update_parent={this.updateMemos} />
+            </Grid>
+            
         );
     }
 

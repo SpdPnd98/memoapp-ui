@@ -2,19 +2,38 @@ import React from "react";
 import {MemoProps, MemoState} from "../model/memo";
 import { URL } from "../resources/constants";
 
+import Button from "@material-ui/core/Button";
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+// import { useStyles } from "../styles/styles";
+
+
+
 export default class Memo extends React.Component<MemoProps, MemoState> {
     constructor(props: MemoProps) {
         super(props);
+        
     }
 
     render(){
+        // const stylesClass = useStyles();
         return (
-            <div className="colorHere" key="{memo.id}"> 
-                <h1>{this.props.title}</h1>
-                <p><i>{this.props.category_id}</i></p>
-                <p>{this.props.body}</p>
-                <button onClick={() => this.deleteMemo()}>Delete memo</button>
-            </div>
+            <Card className="test" key={this.props.id.toString()} variant="outlined"> 
+                <CardContent>
+                    <Typography variant="body1">
+                        {this.props.title}
+                    </Typography>
+                    {/* <p><i>{this.props.category_id}</i></p> */}
+                    <Typography variant="body2">{this.props.body}</Typography>
+                </CardContent>
+                <CardActions>
+                    <Button onClick={() => this.deleteMemo()}>
+                        Delete memo
+                    </Button>
+                </CardActions>
+            </Card>
         );
     }
 

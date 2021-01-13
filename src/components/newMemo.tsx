@@ -1,5 +1,7 @@
 import React from "react";
 import { NewMemoProps, MemoState } from "../model/memo";
+import Button from "@material-ui/core/Button";
+import { TextField, Card, CardContent, CardActions } from "@material-ui/core";
 
 export class NewMemo extends React.Component<NewMemoProps, MemoState> {
     constructor(props: NewMemoProps) {
@@ -13,6 +15,7 @@ export class NewMemo extends React.Component<NewMemoProps, MemoState> {
 
         this.onChange = this.onChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.renderButton = this.renderButton.bind(this);
     }
 
     // componentDidMount(){
@@ -21,29 +24,32 @@ export class NewMemo extends React.Component<NewMemoProps, MemoState> {
 
     render(){
         return (
-            <div>
+            <Card variant="outlined">
                 <form onSubmit={event => this.handleSubmit(event)}>
-                    <div>
-                        <input
+                    <CardContent>
+                        <TextField
                             type="text"
                             name="title"
                             id="memoTitle"
-                            required
+                            label="Title"
                             onChange={this.onChange}
-                            ></input>
-                    </div>
-                    <div>
-                        <textarea
+                            ></TextField>
+                    </CardContent>
+                    <CardContent>
+                        <TextField
+                            multiline
                             rows={5}
                             name="body"
                             id="memoBody"
-                            required
+                            label="Body"
                             onChange={this.onChange}
-                        />
-                    </div>
-                    <button type="submit">Add Memo</button>
+                            />
+                    </CardContent>
+                    <CardActions>
+                        {this.renderButton()}
+                    </CardActions>
                 </form>
-            </div>
+            </Card>
         );
     }
 
@@ -92,5 +98,19 @@ export class NewMemo extends React.Component<NewMemoProps, MemoState> {
 
     onChange(event: any){
         this.setState({ [event.target.name]: event.target.value } as MemoState);
+    }
+
+    renderButton(){
+
+        console.log(this.state.title !== "" && this.state.body !== "");
+        return (
+            <Button type="submit" 
+                disabled={!(this.state.title !== "" 
+                && this.state.body !== "") }>
+            
+                Add Memo
+                
+            </Button>
+        );
     }
 }

@@ -1,12 +1,9 @@
 import React from "react";
 import { MemoboardProps } from "../model/memoboard";
-// import { Link, Redirect } from "react-router-dom";
 import { MemoboardsProps, MemoboardsState } from "../model/memoboards";
-// import { MemosProps } from "../model/memos";
-// import Memos from "./memos";
 import { URL } from "../resources/constants";
-// import { MemosProps } from "../model/memos";
 import Memoboard from "./memoboard";
+// import { Link, Redirect } from "react-router-dom";
 
 class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
     constructor(props: MemoboardsProps){
@@ -77,12 +74,6 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
             </div>
         );
     }
-
-    // updateMemos(memos: MemosProps){
-    //     this.setState({
-    //         memos: memos,
-    //     })
-    // }
 }
 
 export default Memoboards;
