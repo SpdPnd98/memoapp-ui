@@ -80,7 +80,7 @@ function MemoComponent (props: MemoProps) {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button onClick={() => deleteMemo()}>
+                    <Button onClick={(e) => {e.stopPropagation(); deleteMemo();}}>
                         Delete memo
                     </Button>
                 </CardActions>

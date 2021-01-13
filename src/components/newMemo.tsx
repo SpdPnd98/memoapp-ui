@@ -50,6 +50,8 @@ function NewMemoComponent(props: NewMemoProps) {
             })
             .then(response => {
                 //re-render the app with the reply
+                setTitle("");
+                setBody("");
                 props.update_parent(response);
             })
             .catch(error => console.log(error.message));
@@ -61,7 +63,8 @@ function NewMemoComponent(props: NewMemoProps) {
         return (
             <Button type="submit" 
                 disabled={!(title !== "" 
-                && body !== "") }>
+                && body !== "") }
+                >
             
                 Add Memo
                 
@@ -69,8 +72,13 @@ function NewMemoComponent(props: NewMemoProps) {
         );
     }
 
+    const updateMemo = () => {
+        props.update_parent({id: 0, editing: false});
+    }
+
     return (
-        <Card variant="outlined" className={props.classes.root}>
+        <div >
+            <Card variant="outlined" className={props.classes.root} onClick={updateMemo}>
             <form onSubmit={event => handleSubmit(event)}>
                 <CardContent>
                     <TextField
@@ -98,6 +106,7 @@ function NewMemoComponent(props: NewMemoProps) {
                 </CardActions>
             </form>
         </Card>
+        </div>
     );
 }
 

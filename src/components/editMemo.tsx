@@ -76,7 +76,7 @@ function EditMemoComponent(props: MemoProps) {
 
         // console.log(title !== "" && body !== "");
         return (
-            <div onClick={() => props.update_parent()}>
+            <div onClick={() => props.update_parent({id: props.id, editing:false})}>
                 <Button >
                     Cancel
                 </Button>
