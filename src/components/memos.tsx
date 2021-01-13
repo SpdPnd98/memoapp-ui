@@ -5,11 +5,12 @@ import NewMemo from "./newMemo";
 import Memo from "./memo";
 import { URL } from "../resources/constants";
 
-import { Grid } from "@material-ui/core";
+import Masonry from "react-masonry-component";
 
 export default function Memos(props:MemosProps) {
 
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [isReload, setIsReload] = useState<boolean>(false);
     const [memos, setMemos] = useState<MemoProps[]>([]);
     const loading = () => {
         return (
@@ -29,14 +30,14 @@ export default function Memos(props:MemosProps) {
     const updateMemos = (response: any) => {
         console.log("updating array...");
         console.log(JSON.stringify(response));
-        setIsLoaded(true);
+        setIsReload(true);
         setMemos(response.memos);
     }
 
     const parseMemo = (memo: MemoProps) => {
         // parse each memo item
         return (
-            <Grid item>
+            // <li>
                 <Memo 
                 id={memo.id}
                 title={memo.title}
@@ -44,7 +45,7 @@ export default function Memos(props:MemosProps) {
                 category_id={memo.category_id}
                 memoboard_id={memo.memoboard_id}
                 update_parent={updateMemos} />
-            </Grid>
+            // </li>
             
         );
     }
@@ -62,32 +63,48 @@ export default function Memos(props:MemosProps) {
             })
             .then(response => {
                 console.log(JSON.stringify(response));
-                setIsLoaded(true);
-                setMemos(response.memos);
+                if(isLoaded) {
+                    console.log("Memos have already been loaded.");
+                } else {
+                    setIsLoaded(true);
+                    setIsReload(false);
+                    setMemos(response.memos);
+                }
             })
             .catch(errorDialog);
-    }, []);
+    }, [memos]);
 
-    const newMemoFrame = <NewMemo memoboard_id = {props.memoboard_id} 
-                                update_parent  = {updateMemos} />;
-    if(isLoaded) {
+    const newMemoFrame = (
+                            <NewMemo memoboard_id = {props.memoboard_id} 
+                                     update_parent  = {updateMemos} />
+                        );
+    
+    const masonryOptions = {
+        columnWidth: 1,
+        transitionDuration: 0,
+    }
+
+    if(isLoaded || isReload) {
         if(memos.length === 0) {
             return (
-                <Grid container>
+                <Masonry
+                    options={masonryOptions}>
                     {newMemoFrame}
-                    <p>You do not have any memos yet.</p>
-                </Grid>
+                    {/* <p>You do not have any memos yet.</p> */}
+                </Masonry>
             );
         }
         const allMemos = memos.map((memo:MemoProps) => parseMemo(memo));
         return (
-            <Grid container>
+            <Masonry
+                options={masonryOptions}>
                 {newMemoFrame}
                 {allMemos}
-            </Grid>
+            </Masonry>
         );
         
     } else {
         return (loading());
+            
     }
 }

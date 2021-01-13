@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {MemoboardProps, MemoboardState} from "../model/memoboard";
+import {MemoboardProps} from "../model/memoboard";
 import Memos from "./memos";
 
 export default function Memoboard(props: MemoboardProps) {

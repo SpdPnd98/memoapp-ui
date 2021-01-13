@@ -1,5 +1,5 @@
-import { useState, useEffect} from "react";
-import { NewMemoProps } from "../model/memo";
+import { useState } from "react";
+import { MemoProps } from "../model/memo";
 import Button from "@material-ui/core/Button";
 import { TextField, Card, CardContent, CardActions} from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles"
@@ -11,22 +11,25 @@ const styles = {
     
 };
 
-function NewMemoComponent(props: NewMemoProps) {
-    const [title, setTitle] = useState<string>("");
-    const [body, setBody] = useState<string>("");
-    const [categoryId, setCategoryId] = useState<number>(1);
-    const [memoboardId, setMemoboardId] = useState<number>(1);
+function EditMemoComponent(props: MemoProps) {
+    const [title, setTitle] = useState<string>(props.title);
+    const [body, setBody] = useState<string>(props.body);
+    const [categoryId, setCategoryId] = useState<number>(props.category_id);
+    const [memoboardId, setMemoboardId] = useState<number>(props.memoboard_id);
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        const url = "http://localhost:3000/v1/memoboards/" + props.memoboard_id.toString() +"/memos";
+        const url = "http://localhost:3000/v1/memoboards/" 
+                    + props.memoboard_id.toString() + "/memos/"
+                    + props.id;
 
         if(title.length === 0 || body.length === 0) {
             //show popup "create proper memo!"
-            console.log("error in creation")
+            console.log("error in update")
             return;
         }
         const payload = {
+            id: props.id,
             title: title,
             body: body.replace(/\n/g, "<br></br>"),
             category_id: categoryId,
@@ -35,7 +38,7 @@ function NewMemoComponent(props: NewMemoProps) {
 
         // console.log(payload);
         fetch(url,{
-            method: "POST",
+            method: "PATCH",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -63,7 +66,7 @@ function NewMemoComponent(props: NewMemoProps) {
                 disabled={!(title !== "" 
                 && body !== "") }>
             
-                Add Memo
+                Update Memo
                 
             </Button>
         );
@@ -101,4 +104,4 @@ function NewMemoComponent(props: NewMemoProps) {
     );
 }
 
-export default withStyles((theme: Theme) => styles)(NewMemoComponent);
+export default withStyles((theme: Theme) => styles)(EditMemoComponent);
