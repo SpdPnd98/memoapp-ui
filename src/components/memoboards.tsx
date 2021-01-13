@@ -1,21 +1,42 @@
-import React from "react";
+import  { useEffect, useState } from "react";
 import { MemoboardProps } from "../model/memoboard";
-import { MemoboardsProps, MemoboardsState } from "../model/memoboards";
 import { URL } from "../resources/constants";
 import Memoboard from "./memoboard";
+import { useHistory } from "react-router";
 // import { Link, Redirect } from "react-router-dom";
 
-class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
-    constructor(props: MemoboardsProps){
-        super(props);
-        this.state = {
-            id: 1,
-            isLoaded: false,
-            memoboards: [],
+function Memoboards (props: MemoboardProps) {
+    
+    const [id, setId] = useState<number>(1);
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [memoboards, setMemoboards] = useState<MemoboardProps[]>([]);
+    const history = useHistory();
+
+    const selectMemoboard = (id: number) => {
+        const findMemoboard = memoboards.filter((memoboard: MemoboardProps) => memoboard.id === id);
+        if (findMemoboard.length === 0) {
+            console.log("error with filter!");
+            console.log("the value of state id is: " + id)
+            return; // wrong index!
         }
+        const currentMemoBoard = findMemoboard[0]; //take the first board with matching id
+        //fetch corresponding memos
+        
+        return (
+            <Memoboard memoboard_name={currentMemoBoard.memoboard_name} 
+                       id={currentMemoBoard.id} />
+        );
     }
 
-    componentDidMount() {
+    const loading = () => {
+        return (
+            <div>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+    useEffect(() => {
         //local development
         const url = URL + "/v1/memoboards";
         fetch(url)
@@ -30,49 +51,27 @@ class Memoboards extends React.Component<MemoboardsProps, MemoboardsState> {
             .then((response: any) => { // temporary solution, expected response is MemoboardProps[]
                 const id = 1; // some way to get cached value, default is master memo
                 console.log(JSON.stringify(response));
-                this.setState({
-                    id: id,
-                    isLoaded: true,
-                    memoboards: response.memoboards,
-                })
+                setId(id);
+                setIsLoaded(true);
+                setMemoboards(response.memoboards);
             })
-            .catch(()=>this.props.history.push("/"));
-    }
+            .catch(()=>history.push({
+                pathname: "/",
+                state: {
+                    response: "error!"
+                },
+            }));
+    }, []);
 
-    render() {
-        if(this.state.isLoaded) {
-            return (
-                <div>
-                    {this.selectMemoboard(this.state.id)}
-                </div>
-            );
-        } else {
-            return this.loading();
-        }
-    }
-
-    selectMemoboard(id: number) {
-        const findMemoboard = this.state.memoboards.filter((memoboard: MemoboardProps) => memoboard.id === id);
-        if (findMemoboard.length === 0) {
-            console.log("error with filter!");
-            console.log("the value of state id is: " + this.state.id)
-            return; // wrong index!
-        }
-        const currentMemoBoard = findMemoboard[0]; //take the first board with matching id
-        //fetch corresponding memos
-        
-        return (
-            <Memoboard memoboard_name={currentMemoBoard.memoboard_name} 
-                       id={currentMemoBoard.id} />
-        );
-    }
-
-    loading(){
+    
+    if(isLoaded) {
         return (
             <div>
-                <p>Loading...</p>
+                {selectMemoboard(id)}
             </div>
         );
+    } else {
+        return loading();
     }
 }
 

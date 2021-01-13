@@ -1,7 +1,14 @@
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles, Theme } from "@material-ui/core/styles";
+// import { WithStyles } from "@material-ui/core";
 
-export const useStyles = makeStyles({
+export const styles = (theme:Theme) => makeStyles({
     root: {
-        minWidth: 275,
+        maxWidth: 280,
+    },
+    button: {
+        maxWidth: 200
+    },
+    grid: {
+        margin: 20,
     },
 });

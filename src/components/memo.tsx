@@ -7,39 +7,12 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-// import { useStyles } from "../styles/styles";
 
+export default function Memo (props: MemoProps) {
 
-
-export default class Memo extends React.Component<MemoProps, MemoState> {
-    constructor(props: MemoProps) {
-        super(props);
-        
-    }
-
-    render(){
-        // const stylesClass = useStyles();
-        return (
-            <Card className="test" key={this.props.id.toString()} variant="outlined"> 
-                <CardContent>
-                    <Typography variant="body1">
-                        {this.props.title}
-                    </Typography>
-                    {/* <p><i>{this.props.category_id}</i></p> */}
-                    <Typography variant="body2">{this.props.body}</Typography>
-                </CardContent>
-                <CardActions>
-                    <Button onClick={() => this.deleteMemo()}>
-                        Delete memo
-                    </Button>
-                </CardActions>
-            </Card>
-        );
-    }
-
-    deleteMemo(){
+    const deleteMemo = () => {
         // console.log("Wait lah");
-        const url = URL + "/v1/memoboards/" + this.props.memoboard_id.toString() + "/memos/" + this.props.id.toString();
+        const url = URL + "/v1/memoboards/" + props.memoboard_id.toString() + "/memos/" + props.id.toString();
         console.log(url);
         fetch(url,
             {
@@ -52,7 +25,7 @@ export default class Memo extends React.Component<MemoProps, MemoState> {
                 throw new Error("Error in API call!");
             })
             .then(response => {
-                this.props.update_parent(response);
+                props.update_parent(response);
             })
             .catch(e => {
                 console.log(e.toString());
@@ -60,12 +33,30 @@ export default class Memo extends React.Component<MemoProps, MemoState> {
         
     }
 
-    updateMemoBody(id:number) {
-
+    const updateMemoBody = () => {
+        return;
     }
 
-    updateMemoTitle(id:number) {
-
+    const updateMemoTitle = () => {
+        return;
     }
 
-}
+    return (
+        <Card className={"test"} key={props.id.toString()} variant="outlined"> 
+            <CardContent>
+                <Typography variant="body1">
+                    {props.title}
+                </Typography>
+                {/* <p><i>{this.props.category_id}</i></p> */}
+                <Typography variant="body2">
+                    {props.body}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <Button onClick={() => deleteMemo()}>
+                    Delete memo
+                </Button>
+            </CardActions>
+        </Card>
+    );
+    }
