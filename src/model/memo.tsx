@@ -8,6 +8,7 @@ export type MemoProps = {
     memoboard_id: number;
     update_parent: Function;
     classes: any;
+    editing?: boolean;
 }
 
 export type NewMemoProps = {

@@ -58,17 +58,30 @@ function EditMemoComponent(props: MemoProps) {
             .catch(error => console.log(error.message));
     }
 
-    const renderButton = () => {
+    const renderUpdateButton = () => {
 
-        console.log(title !== "" && body !== "");
+        // console.log(title !== "" && body !== "");
         return (
             <Button type="submit" 
                 disabled={!(title !== "" 
-                && body !== "") }>
+                && body !== "")}>
             
                 Update Memo
                 
             </Button>
+        );
+    }
+
+    const renderCancelButton = () => {
+
+        // console.log(title !== "" && body !== "");
+        return (
+            <div onClick={() => props.update_parent()}>
+                <Button >
+                    Cancel
+                </Button>
+            </div>
+            
         );
     }
 
@@ -97,7 +110,8 @@ function EditMemoComponent(props: MemoProps) {
                         />
                 </CardContent>
                 <CardActions>
-                    {renderButton()}
+                    {renderUpdateButton()}
+                    {renderCancelButton()}
                 </CardActions>
             </form>
         </Card>

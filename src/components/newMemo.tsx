@@ -57,7 +57,7 @@ function NewMemoComponent(props: NewMemoProps) {
 
     const renderButton = () => {
 
-        console.log(title !== "" && body !== "");
+        // console.log(title !== "" && body !== "");
         return (
             <Button type="submit" 
                 disabled={!(title !== "" 

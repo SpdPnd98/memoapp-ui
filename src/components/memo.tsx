@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {MemoProps} from "../model/memo";
 import { URL } from "../resources/constants";
 import EditMemo from "./editMemo";
@@ -21,7 +21,7 @@ const styles = {
 
 function MemoComponent (props: MemoProps) {
 
-    const [isEdit, setIsEdit] = useState(false);
+    // const [isEdit, setIsEdit] = useState(false);
     const deleteMemo = () => {
         // console.log("Wait lah");
         const url = URL + "/v1/memoboards/" + props.memoboard_id.toString() + "/memos/" + props.id.toString();
@@ -45,17 +45,16 @@ function MemoComponent (props: MemoProps) {
         
     }
 
-    useEffect(() => {
-        
-    }, [isEdit]);
+    // useEffect(() => {
+    //     // console.log("editing stuff...");
+    // }, [isEdit]);
 
     const updateMemo = () => {
-        setIsEdit(true);
+        props.update_parent({id: props.id, editing: !props.editing});
     }
 
-    if (isEdit) {
+    if (props.editing) {
         return(
-            <div onClick={updateMemo}>
                 <EditMemo
                     id={props.id}
                     title={props.title}
@@ -63,14 +62,14 @@ function MemoComponent (props: MemoProps) {
                     category_id={props.category_id}
                     memoboard_id={props.memoboard_id}
                     update_parent={props.update_parent}
-                    classes={props.classes} />
-            </div>
+                    classes={props.classes}
+                    editing={true} />
         ) 
     }
     return (
         <div onClick={updateMemo}>
             <Card className={props.classes.root} key={props.id.toString()} variant="outlined" > 
-                <CardContent>
+                <CardContent >
                     <Typography variant="body1">
                         {props.title}
                     </Typography>
@@ -86,7 +85,7 @@ function MemoComponent (props: MemoProps) {
                     </Button>
                 </CardActions>
             </Card>
-        </div>
+        </div> 
     );
 }
 
