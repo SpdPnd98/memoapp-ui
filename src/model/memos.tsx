@@ -1,11 +1,8 @@
-import { MemoProps } from "./memo";
-// import { RouteComponentProps } from "react-router-dom";
+import Categories from "../resources/categories";
+import { CategoriesProps } from "./categories";
 
 export type MemosProps = {
     memoboard_id: number;
-}
-
-export type MemosState = {
-    isLoaded: boolean;
-    memos: MemoProps[];
+    categories: Array<any>;
+    update_categories: Function;
 }

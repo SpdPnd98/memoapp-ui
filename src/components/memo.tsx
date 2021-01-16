@@ -10,6 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 import { withStyles, Theme } from "@material-ui/core/styles"
+import { CSSProperties } from "@material-ui/styles";
 // import { createStyles } from "@material-ui/styles";
 
 const styles = {
@@ -20,6 +21,9 @@ const styles = {
 };
 
 function MemoComponent (props: MemoProps) {
+    const memoColorStyle: CSSProperties = {
+        background: props.category_color,
+    }
 
     // const [isEdit, setIsEdit] = useState(false);
     const deleteMemo = () => {
@@ -59,16 +63,24 @@ function MemoComponent (props: MemoProps) {
                     id={props.id}
                     title={props.title}
                     body={props.body}
-                    category_id={props.category_id}
                     memoboard_id={props.memoboard_id}
                     update_parent={props.update_parent}
                     classes={props.classes}
-                    editing={true} />
+                    editing={true}
+
+                    category_id={props.category_id}
+                    category_color={props.category_color}
+                    category_name={props.category_name}
+                    categories = {props.categories}
+                    category_update = {props.category_update} />
         ) 
     }
     return (
         <div onClick={updateMemo}>
-            <Card className={props.classes.root} key={props.id.toString()} variant="outlined" > 
+            <Card className={props.classes.root} 
+                  key={props.id.toString()} 
+                  variant="outlined"
+                  style={memoColorStyle}> 
                 <CardContent >
                     <Typography variant="body1">
                         {props.title}

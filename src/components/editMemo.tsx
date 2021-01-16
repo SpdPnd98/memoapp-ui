@@ -1,23 +1,18 @@
 import { useState } from "react";
 import { MemoProps } from "../model/memo";
-import Button from "@material-ui/core/Button";
-import { TextField, Card, CardContent, CardActions} from "@material-ui/core";
+// import Button from "@material-ui/core/Button";
+// import { TextField, Card, CardContent, CardActions} from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles"
-
-const styles = {
-    root: {
-        width: 200, 
-    },
-    
-};
+import MemoForm from "./memoForm";
+import { styles } from "../resources/styles";
 
 function EditMemoComponent(props: MemoProps) {
     const [title, setTitle] = useState<string>(props.title);
     const [body, setBody] = useState<string>(props.body);
-    const [categoryId, setCategoryId] = useState<number>(props.category_id);
-    const [memoboardId, setMemoboardId] = useState<number>(props.memoboard_id);
+    // const [categoryId, setCategoryId] = useState<number>(props.category_id);
+    // const [memoboardId, setMemoboardId] = useState<number>(props.memoboard_id);
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event: any, payload: any) => {
         event.preventDefault();
         const url = "http://localhost:3000/v1/memoboards/" 
                     + props.memoboard_id.toString() + "/memos/"
@@ -28,15 +23,8 @@ function EditMemoComponent(props: MemoProps) {
             console.log("error in update")
             return;
         }
-        const payload = {
-            id: props.id,
-            title: title,
-            body: body.replace(/\n/g, "<br></br>"),
-            category_id: categoryId,
-            memoboard_id: memoboardId,
-        }
+        console.log(JSON.stringify(payload));
 
-        // console.log(payload);
         fetch(url,{
             method: "PATCH",
             headers: {
@@ -58,64 +46,21 @@ function EditMemoComponent(props: MemoProps) {
             .catch(error => console.log(error.message));
     }
 
-    const renderUpdateButton = () => {
-
-        // console.log(title !== "" && body !== "");
-        return (
-            <Button type="submit" 
-                disabled={!(title !== "" 
-                && body !== "")}>
-            
-                Update Memo
+    return (<MemoForm 
+                id={props.id}
+                title={props.title}
+                body={props.body}
+                memoboard_id={props.memoboard_id}
+                update_parent={props.update_parent}
+                handle_submit = {handleSubmit}
+                editing={true}
+                text={"Update"}
                 
-            </Button>
-        );
-    }
-
-    const renderCancelButton = () => {
-
-        // console.log(title !== "" && body !== "");
-        return (
-            <div onClick={() => props.update_parent({id: props.id, editing:false})}>
-                <Button >
-                    Cancel
-                </Button>
-            </div>
-            
-        );
-    }
-
-    return (
-        <Card variant="outlined" className={props.classes.root}>
-            <form onSubmit={event => handleSubmit(event)}>
-                <CardContent>
-                    <TextField
-                        type="text"
-                        name="title"
-                        id="memoTitle"
-                        label="Title"
-                        onChange={e => setTitle(e.target.value)}
-                        value = {title}
-                        ></TextField>
-                </CardContent>
-                <CardContent>
-                    <TextField
-                        multiline
-                        rows={5}
-                        name="body"
-                        id="memoBody"
-                        label="Body"
-                        onChange={e => setBody(e.target.value)}
-                        value={body}
-                        />
-                </CardContent>
-                <CardActions>
-                    {renderUpdateButton()}
-                    {renderCancelButton()}
-                </CardActions>
-            </form>
-        </Card>
-    );
+                category_id={props.category_id}
+                category_color={props.category_color}
+                category_name={props.category_name}
+                categories = {props.categories}
+                category_update = {props.category_update} />)
 }
 
 export default withStyles((theme: Theme) => styles)(EditMemoComponent);
