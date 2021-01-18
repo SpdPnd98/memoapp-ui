@@ -1,9 +1,6 @@
 import Categories from "../resources/categories";
 import { CategoryProps } from "./category";
 
-export type CategoriesProps = {
-    activeCategory: CategoryProps;
-}
 
 export type CategoriesDropDownProps = {
     categories: Array<any>;

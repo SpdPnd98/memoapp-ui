@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import {MemoboardProps} from "../model/memoboard";
 import Memos from "./memos";
-import CategoryDropDown from "./categoryDropDown";
 import { URL } from "../resources/constants";
+import { CategoryProps } from "../model/category";
+import CategoryFilter from "./categoryFilter";
 
 export default function Memoboard(props: MemoboardProps) {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -51,8 +52,8 @@ export default function Memoboard(props: MemoboardProps) {
     if(isLoaded){
         return (
         <div>
-            <h1>{props.memoboard_name}</h1>
-            <p>Switch a memoboard:</p>
+            <h1>{props.memoboard_name + " "} Memoboard</h1>
+            {/* <p>Switch a memoboard:</p> */}
             <Memos memoboard_id={props.id} 
                    categories={categories} 
                    update_categories={updateCategories}/>

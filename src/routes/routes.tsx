@@ -7,8 +7,8 @@ export function AppRouter() {
     return (
         <Router>
             <Switch>
-                <Route path="/" exact component={Login} />
-                <Route path="/home" exact component={Memoboards} />
+                <Route path="/" exact component={Login} key = {"root"}/>
+                <Route path="/home" exact component={Memoboards} key = {"home"}/>
             </Switch>
         </Router>
     )

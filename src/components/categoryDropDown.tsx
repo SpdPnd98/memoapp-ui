@@ -74,7 +74,7 @@ export default function CategoryDropDown (props: CategoriesDropDownProps) {
     };
 
     const generateDropItems = () => {
-        console.log(JSON.stringify(categories));
+        // console.log(JSON.stringify(categories));
         // const itemStyle = ((category: CategoryProps) => {
         //     return {
         //         background: category.color,
@@ -109,7 +109,7 @@ export default function CategoryDropDown (props: CategoriesDropDownProps) {
             />);
     }
     else{
-        console.log("launching no cat");
+        // console.log("launching no cat");
         return generateDropDown();
     }
 };
