@@ -69,6 +69,7 @@ function MemoFormComponent(props: MemoFormProps) {
     }
 
     const updateMemo = (index: number) => {
+        setMemoboardId(props.memoboard_id); // change to a new component when able to create multiple memobaords
         setCategoryId(index);
         setColor(props.categories.filter((category: any) => category.id === index)[0].color);
     }

@@ -7,22 +7,23 @@ import MemoForm from "./memoForm";
 import { styles } from "../resources/styles";
 
 function EditMemoComponent(props: MemoProps) {
-    const [title, setTitle] = useState<string>(props.title);
-    const [body, setBody] = useState<string>(props.body);
+    // const [title, setTitle] = useState<string>(props.title);
+    // const [body, setBody] = useState<string>(props.body);
     // const [categoryId, setCategoryId] = useState<number>(props.category_id);
     // const [memoboardId, setMemoboardId] = useState<number>(props.memoboard_id);
 
     const handleSubmit = (event: any, payload: any) => {
         event.preventDefault();
+
         const url = "http://localhost:3000/v1/memoboards/" 
                     + props.memoboard_id.toString() + "/memos/"
                     + props.id;
 
-        if(title.length === 0 || body.length === 0) {
-            //show popup "create proper memo!"
-            console.log("error in update")
-            return;
-        }
+        // if(title.length === 0 || body.length === 0) {
+        //     //show popup "create proper memo!"
+        //     console.log("error in update")
+        //     return;
+        // }
         console.log(JSON.stringify(payload));
 
         fetch(url,{

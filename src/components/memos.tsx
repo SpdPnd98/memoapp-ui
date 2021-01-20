@@ -110,12 +110,17 @@ export default function Memos(props:MemosProps) {
                 category_color = {category.color}
                 category_name = {category.name}
                 categories = {categories}
-                category_update = {props.update_categories}
+                category_update = {handleCategoryUpdate}
                 />
             // </li>
             
         );
     };
+
+    const handleCategoryUpdate = (event: any) => {
+        props.update_categories(event);
+        setCategories(event);
+    }
 
     useEffect(() => {
         //fetch all memos
@@ -154,8 +159,8 @@ export default function Memos(props:MemosProps) {
                                 category_id={defaultCategory.id}
                                 category_color = {defaultCategory.color}
                                 category_name = {defaultCategory.name}
-                                category_update = {props.update_categories}
-                                categories = {props.categories} />
+                                category_update = {handleCategoryUpdate}
+                                categories = {categories} />
                         );
     
     const masonryOptions = {

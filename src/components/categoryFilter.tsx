@@ -1,7 +1,7 @@
 import { Select, FormControl, InputLabel, Input, Chip, MenuItem } from "@material-ui/core";
 import { useState } from "react";
 import { CategoryProps } from "../model/category";
-import { makeStyles, Theme, createStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { ColorButton } from "material-ui-color";
 
 const styles = makeStyles((theme: Theme) => createStyles({
@@ -33,7 +33,7 @@ export default function CategoryFilter(props: {categories: CategoryProps[], upda
     }
 
     const classes = styles();
-    const theme = useTheme();
+    // const theme = useTheme();
 
     // console.log("category filters have: " + JSON.stringify(props.categories));
 

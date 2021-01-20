@@ -74,6 +74,11 @@ export default function CategoryDropDown (props: CategoriesDropDownProps) {
         console.log("create new soon!");
     };
 
+    const handleUpdateCategories = (event:any) => {
+        props.update_categories(event);
+        setCategories(event);
+    }
+
     const generateDropItems = () => {
         // console.log(JSON.stringify(categories));
         // const itemStyle = ((category: CategoryProps) => {
@@ -98,7 +103,7 @@ export default function CategoryDropDown (props: CategoriesDropDownProps) {
     if(categoryFormNew) {
         return (<NewCategory 
             update_parent={setCategoryFormNew}
-            update_categories={props.update_categories}/>);
+            update_categories={handleUpdateCategories}/>);
     } else if(categotyFormEdit && category !== undefined){
         return (<EditCategory
             id={category.id}
