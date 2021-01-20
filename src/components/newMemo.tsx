@@ -5,6 +5,7 @@ import { withStyles, Theme } from "@material-ui/core/styles"
 import { styles } from "../resources/styles";
 import { useState } from "react";
 import { NEWMEMO } from "../resources/constants";
+import { URL } from "../resources/constants";
 
 function NewMemoComponent(props: NewMemoProps) {
 
@@ -12,7 +13,7 @@ function NewMemoComponent(props: NewMemoProps) {
 
     const handleSubmit = (event: any, payload: any) => {
         event.preventDefault();
-        const url = "http://localhost:3000/v1/memoboards/" 
+        const url = URL + "/v1/memoboards/" 
                     + props.memoboard_id.toString() +"/memos";
 
         console.log(payload);

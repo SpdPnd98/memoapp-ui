@@ -4,6 +4,7 @@ import { MemoProps } from "../model/memo";
 import { withStyles, Theme } from "@material-ui/core/styles"
 import MemoForm from "./memoForm";
 import { styles } from "../resources/styles";
+import { URL } from "../resources/constants";
 
 function EditMemoComponent(props: MemoProps) {
     // const [title, setTitle] = useState<string>(props.title);
@@ -14,7 +15,7 @@ function EditMemoComponent(props: MemoProps) {
     const handleSubmit = (event: any, payload: any) => {
         event.preventDefault();
 
-        const url = "http://localhost:3000/v1/memoboards/" 
+        const url = URL + "/v1/memoboards/" 
                     + props.memoboard_id.toString() + "/memos/"
                     + props.id;
 
