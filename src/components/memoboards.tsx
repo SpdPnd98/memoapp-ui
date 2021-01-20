@@ -11,15 +11,6 @@ function Memoboards () {
     const [memoboards, setMemoboards] = useState<MemoboardProps[]>([]);
     const history = useHistory();
 
-    const returnIndex = () => {
-        history.push({
-            pathname: "/",
-            state: {
-                response: "error!"
-            },
-        })
-    };
-
     useEffect(() => {
         //fetch memoboards
         const urlMemoboards = URL + "/v1/memoboards";
@@ -39,7 +30,14 @@ function Memoboards () {
                 setIsLoaded(true);
                 setMemoboards(response.memoboards);
             })
-            .catch(returnIndex);
+            .catch(() => {
+                history.push({
+                    pathname: "/",
+                    state: {
+                        response: "error!"
+                    },
+                })
+            });
     }, []);
 
         

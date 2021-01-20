@@ -145,7 +145,7 @@ export default function Memos(props:MemosProps) {
                     }
                 })
                 .catch(errorDialog);    
-        }
+        }// eslint-disable-next-line
     }, [memos, editingId]);
 
     const newMemoFrame = (
