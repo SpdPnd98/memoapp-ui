@@ -1,10 +1,15 @@
+import { TextField } from "@material-ui/core";
 import { NewMemoProps } from "../model/memo";
 import MemoForm from "./memoForm";
 import { withStyles, Theme } from "@material-ui/core/styles"
 import { styles } from "../resources/styles";
-
+import { useState } from "react";
+import { NEWMEMO } from "../resources/constants";
 
 function NewMemoComponent(props: NewMemoProps) {
+
+    const [editing, setEditing] = useState<boolean>(false)
+
     const handleSubmit = (event: any, payload: any) => {
         event.preventDefault();
         const url = "http://localhost:3000/v1/memoboards/" 
@@ -27,27 +32,46 @@ function NewMemoComponent(props: NewMemoProps) {
             })
             .then(response => {
                 //re-render the app with the reply
+                setEditing(false);
                 props.update_parent(response);
             })
             .catch(error => console.log(error.message));
     }
+    const handleOnClick = () => {
+        props.update_parent({id: NEWMEMO, editing: true});
+        setEditing(true);
+    }
 
-    return (
-        <MemoForm 
-                title={""}
-                body={""}
-                memoboard_id={props.memoboard_id}
-                update_parent={props.update_parent}
-                handle_submit = {handleSubmit}
-                editing={false}
-                text={"Add Memo"}
+    const updateParent = (fields: {id: number; editing: boolean;}) => {
+        props.update_parent(fields);
+        setEditing(false);
+    }
 
-                category_id={props.category_id}
-                category_color={props.category_color}
-                category_name={props.category_name}
-                categories = {props.categories}
-                category_update = {props.category_update} />
-    )
+    if(editing && props.id === NEWMEMO) {
+        return (
+            <MemoForm 
+                    id={-1}
+                    title={""}
+                    body={""}
+                    memoboard_id={props.memoboard_id}
+                    update_parent={updateParent}
+                    handle_submit = {handleSubmit}
+                    editing={false}
+                    text={"Add Memo"}
+    
+                    category_id={props.category_id}
+                    category_color={props.category_color}
+                    category_name={props.category_name}
+                    categories = {props.categories}
+                    category_update = {props.category_update} />
+        )
+    } else {
+        return <TextField
+                    onClick={handleOnClick}
+                    placeholder={"Add a memo..."}
+                    />
+    }
+    
 }
 
 export default withStyles((theme: Theme) => styles)(NewMemoComponent);

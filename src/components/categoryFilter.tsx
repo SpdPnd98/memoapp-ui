@@ -6,9 +6,9 @@ import { ColorButton } from "material-ui-color";
 
 const styles = makeStyles((theme: Theme) => createStyles({
     formControl: {
-      margin: theme.spacing(1),
+      margin: "0 7% 0 0",
       minWidth: 120,
-      maxWidth: 300,
+    //   maxWidth: 300,
     },
     chips: {
       display: 'flex',

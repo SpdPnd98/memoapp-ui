@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { EditCategoryProps } from "../model/category";
 import CategoryForm from "./categoryForm";
 import { URL } from "../resources/constants";

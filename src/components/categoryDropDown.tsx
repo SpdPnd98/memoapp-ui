@@ -15,16 +15,17 @@ export default function CategoryDropDown (props: CategoriesDropDownProps) {
     const [categotyFormEdit, setCategoryFormEdit] = useState<boolean>(false);
 
     const [category, setCategory] = useState<CategoryProps | undefined>();
-    
+
     const generateDropDown = () => {
         const allCatDrops = generateDropItems();
         return(
-            <div>
+               <>
                 <IconButton
                     aria-label="more"
                     aria-controls="category-menu"
                     aria-haspopup="true"
                     onClick={handleClick}
+                    // style={{alignContent: "flex-end",} as CSSProperties}
                 >
                     <MoreVertIcon />
                 </IconButton>
@@ -43,7 +44,7 @@ export default function CategoryDropDown (props: CategoriesDropDownProps) {
                         Add Category...
                     </MenuItem>  
                 </Menu>
-            </div>
+            </>
         );
     }
 

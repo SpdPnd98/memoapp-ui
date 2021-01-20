@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, TextField, Button } from "@material-ui/core";
 import { Color, ColorBox, ColorButton } from "material-ui-color";
 import { CategoryFormProps } from "../model/category";

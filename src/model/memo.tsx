@@ -1,4 +1,3 @@
-import { CategoryProps } from "./category";
 
 export type MemoProps = {
     id: number; // this is the reason MemoProps has to be different from newMemoProps
@@ -17,6 +16,7 @@ export type MemoProps = {
 }
 
 export type NewMemoProps = {
+    id: number;
     title: string;
     body: string;
     memoboard_id: number;

@@ -3,25 +3,28 @@ import { MemosProps } from "../model/memos";
 import { MemoProps } from "../model/memo";
 import NewMemo from "./newMemo";
 import Memo from "./memo";
-import { URL } from "../resources/constants";
+import { URL, NOMEMO } from "../resources/constants";
 import { CategoryProps } from "../model/category";
 import CategoryFilter from "./categoryFilter";
 
 import Masonry from "react-masonry-component";
-
 export default function Memos(props:MemosProps) {
-    const defaultCategory = {
-        id: 1,
-        name: "Uncategorized",
-        color: "#FFFFFF",
-    }
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [isReload, setIsReload] = useState<boolean>(false); // this bool is to trigger rerendering
     const [memos, setMemos] = useState<MemoProps[]>([]);
     const [isEditGroup, setIsEditGroup] = useState<boolean>(false);
-    const [editingId, setIsEditingId] = useState<number>(0);
+    const [editingId, setIsEditingId] = useState<number>(NOMEMO);
     const [categories, setCategories] = useState(props.categories);
     const [filter, setFilter] = useState<Array<any>>(props.categories);
+
+    const defaultCategory = categories === undefined 
+    ? {
+        id: 1,
+        name: "Uncategorized",
+        color: "#FFFFFF",
+    }
+    : categories[0];
+
     const loading = () => {
         return (
             <div>
@@ -141,20 +144,23 @@ export default function Memos(props:MemosProps) {
     }, [memos, editingId]);
 
     const newMemoFrame = (
-                            <NewMemo title={""} body={""}
-                                     memoboard_id = {props.memoboard_id} 
-                                     update_parent  = {updateMemos}
+                            <NewMemo
+                                id = {editingId} 
+                                title={""}
+                                body={""}
+                                memoboard_id = {props.memoboard_id} 
+                                update_parent  = {updateMemos}
 
-                                     category_id={defaultCategory.id}
-                                     category_color = {defaultCategory.color}
-                                     category_name = {defaultCategory.name}
-                                     category_update = {props.update_categories}
-                                     categories = {props.categories} />
+                                category_id={defaultCategory.id}
+                                category_color = {defaultCategory.color}
+                                category_name = {defaultCategory.name}
+                                category_update = {props.update_categories}
+                                categories = {props.categories} />
                         );
     
     const masonryOptions = {
         columnWidth: 1,
-        transitionDuration: 2,
+        transitionDuration: 1,
     }
 
     if(isLoaded || isReload) {
@@ -162,9 +168,9 @@ export default function Memos(props:MemosProps) {
             return (
                 <>
                 {editFilter()}
+                {newMemoFrame}
                 <Masonry
                     options={masonryOptions}>
-                    {newMemoFrame}
                     {/* <p>You do not have any memos yet.</p> */}
                 </Masonry>
                 </>
@@ -172,10 +178,12 @@ export default function Memos(props:MemosProps) {
         }
         const allMemos = memos.map((memo:MemoProps) => parseMemo(memo, memo.id === editingId ? isEditGroup : false));
         return (
-            <div>{editFilter()}
+            <div
+           
+            >{editFilter()}
+                {newMemoFrame}
                 <Masonry
                     options={masonryOptions}>
-                    {newMemoFrame}
                     {allMemos}
                 </Masonry>
             </div>

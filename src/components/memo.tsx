@@ -15,7 +15,7 @@ import { CSSProperties } from "@material-ui/styles";
 
 const styles = {
     root: {
-        width: 200, 
+        width: 180, 
     },
     
 };
@@ -23,6 +23,7 @@ const styles = {
 function MemoComponent (props: MemoProps) {
     const memoColorStyle: CSSProperties = {
         background: props.category_color,
+        // width: "30%",
     }
 
     // const [isEdit, setIsEdit] = useState(false);

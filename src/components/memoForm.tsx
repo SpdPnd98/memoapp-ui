@@ -5,6 +5,7 @@ import { TextField, Card, CardContent, CardActions} from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles"
 import { styles } from "../resources/styles";
 import CategoryDropDown from "./categoryDropDown";
+import { NEWMEMO } from "../resources/constants";
 
 
 function MemoFormComponent(props: MemoFormProps) {
@@ -47,11 +48,11 @@ function MemoFormComponent(props: MemoFormProps) {
 
         // console.log(title !== "" && body !== "");
         return (
-            <div onClick={() => props.update_parent({id: props.id, editing:false})}>
-                <Button >
+            <>
+                <Button onClick={() => props.update_parent({id: props.id, editing:false})}>
                     Cancel
                 </Button>
-            </div>
+            </>
             
         );
     }
@@ -72,7 +73,12 @@ function MemoFormComponent(props: MemoFormProps) {
         setColor(props.categories.filter((category: any) => category.id === index)[0].color);
     }
 
-    const formColorStyle: CSSProperties = {
+    const formColorStyle: CSSProperties = props.id === NEWMEMO 
+    ? {
+        background: color,
+        width: "80%",
+    }
+    : {
         background: color,
     }
 
@@ -86,13 +92,15 @@ function MemoFormComponent(props: MemoFormProps) {
                         id="memoTitle"
                         label="Title"
                         onChange={e => setTitle(e.target.value)}
-                        value = {title}
+                        value={title}
+                        fullWidth={true}
                         ></TextField>
                 </CardContent>
                 <CardContent>
                     <TextField
                         multiline
                         rows={5}
+                        fullWidth={true}
                         name="body"
                         id="memoBody"
                         label="Body"
@@ -100,7 +108,9 @@ function MemoFormComponent(props: MemoFormProps) {
                         value={body}
                         />
                 </CardContent>
-                <CardActions>
+                <CardActions 
+                    className={props.classes.formDiv}
+                    >
                     {renderUpdateButton()}
                     {renderCancelButton()}
                     <CategoryDropDown 

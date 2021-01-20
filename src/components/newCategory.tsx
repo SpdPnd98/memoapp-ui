@@ -1,15 +1,9 @@
 import { NewCategoryProps } from "../model/category";
-import { useState } from "react";
 import CategoryForm from "./categoryForm";
 import { URL } from "../resources/constants";
 
 export default function NewCategory(props: NewCategoryProps) {
-    const [id, setId] = useState<number>(1);
-    const [name, setName] = useState<string>("");
-    const [color, setColor] = useState<string>("");
-
-    // props.update_parent(true);
-
+    
     const createCategory = (payload: any) => {
         const url = URL + "/v1/categories";
         fetch (url, {
