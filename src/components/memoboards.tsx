@@ -30,7 +30,7 @@ function Memoboards () {
                 setIsLoaded(true);
                 setMemoboards(response.memoboards);
             })
-            .catch(() => {
+            .catch(() => {// eslint-disable-next-line
                 history.push({
                     pathname: "/",
                     state: {

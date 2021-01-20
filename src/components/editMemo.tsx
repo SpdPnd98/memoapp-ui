@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MemoProps } from "../model/memo";
 // import Button from "@material-ui/core/Button";
 // import { TextField, Card, CardContent, CardActions} from "@material-ui/core";
