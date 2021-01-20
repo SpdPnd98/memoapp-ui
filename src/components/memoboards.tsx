@@ -37,7 +37,7 @@ function Memoboards () {
                         response: "error!"
                     },
                 })
-            });
+            });// eslint-disable-next-line
     }, []);
 
         
