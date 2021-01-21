@@ -100,7 +100,7 @@ export default function Memos(props:MemosProps) {
                 <Memo 
                 id={memo.id}
                 title={memo.title}
-                body={memo.body.replaceAll("<br></br>", "\n")}
+                body={memo.body}
                 memoboard_id={memo.memoboard_id}
                 update_parent={updateMemos} 
                 editing={editing}

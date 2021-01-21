@@ -89,7 +89,16 @@ function MemoComponent (props: MemoProps) {
                     {/* <p><i>{this.props.category_id}</i></p> */}
                     <Typography variant="body2"
                         style={{wordWrap: "break-word"}}>
-                        {props.body}
+                        
+                            {props.body.split("<br></br>").map((paragraph: String, index: number) => {
+                                return (
+                                    <>
+                                    {paragraph}
+                                    <br></br>
+                                    </>
+                                );
+                            })}
+                        
                     </Typography>
                 </CardContent>
                 <CardActions>
