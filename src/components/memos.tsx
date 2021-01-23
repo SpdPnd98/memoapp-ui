@@ -7,8 +7,11 @@ import { URL, NOMEMO } from "../resources/constants";
 import { CategoryProps } from "../model/category";
 import CategoryFilter from "./categoryFilter";
 
+import { useDispatch } from "react-redux";
+
 import Masonry from "react-masonry-component";
-export default function Memos(props:MemosProps) {
+import { Dispatch } from "redux";
+const Memos: React.FC<MemosProps> = (props) => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [isReload, setIsReload] = useState<boolean>(false); // this bool is to trigger rerendering
     const [memos, setMemos] = useState<MemoProps[]>([]);
@@ -117,6 +120,7 @@ export default function Memos(props:MemosProps) {
         );
     };
 
+    const dispatch: Dispatch<any> = useDispatch();
     const handleCategoryUpdate = (event: any) => {
         props.update_categories(event);
         setCategories(event);
@@ -199,3 +203,5 @@ export default function Memos(props:MemosProps) {
             
     }
 }
+
+export default Memos;

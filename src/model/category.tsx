@@ -27,11 +27,12 @@ export type CategoryFormProps = {
     close_form: Function;
 };
 
-export type CategoryState = {
-    categories: CategoryProps[];
-}
+export interface NewCategoryFormProps { // maybe can remove categoryformprops after redux integrations
+    id?: number;
+    name:string;
+    color:string;
+};
 
-export type CategoryAction = {
-    type: string;
-    category: CategoryProps
-}
+// export type CategoryState = {
+//     categories: CategoryProps[];
+// }

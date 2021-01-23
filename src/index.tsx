@@ -3,14 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import reducer from "./store/reducer";
+import { applyMiddleware, createStore, Dispatch, Store } from 'redux';
+import { CategoryAction, CategoryState } from './model/category';
 // added
 // import { CategoryProps } from "./model/category";
 // import { createStore } from "redux";
 
+const store: Store<CategoryState, CategoryAction> & {
+  dispatch: Dispatch
+} = createStore(reducer, applyMiddleware(thunk));
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+  </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

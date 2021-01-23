@@ -6,6 +6,7 @@ import { styles } from "../resources/styles";
 import { useState } from "react";
 import { NEWMEMO } from "../resources/constants";
 import { URL } from "../resources/constants";
+import { CSSProperties } from "react";
 
 function NewMemoComponent(props: NewMemoProps) {
 
@@ -70,7 +71,7 @@ function NewMemoComponent(props: NewMemoProps) {
         return <TextField
                     onClick={handleOnClick}
                     placeholder={"Add a memo..."}
-                    />
+                    style={{margin: "0 0 0.3% 0"} as CSSProperties}/>
     }
     
 }

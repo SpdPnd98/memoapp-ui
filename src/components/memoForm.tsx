@@ -78,6 +78,7 @@ function MemoFormComponent(props: MemoFormProps) {
     ? {
         background: color,
         width: "80%",
+        margin: "0.3%",
     }
     : {
         background: color,

@@ -15,7 +15,8 @@ import { CSSProperties } from "@material-ui/styles";
 
 const styles = {
     root: {
-        width: 180, 
+        width: "12%", 
+        margin: "0.3%"
     },
     
 };
@@ -63,7 +64,7 @@ function MemoComponent (props: MemoProps) {
                 <EditMemo
                     id={props.id}
                     title={props.title}
-                    body={props.body}
+                    body={props.body.replaceAll("<br></br>", "\n")}
                     memoboard_id={props.memoboard_id}
                     update_parent={props.update_parent}
                     classes={props.classes}
@@ -77,9 +78,8 @@ function MemoComponent (props: MemoProps) {
         ) 
     }
     return (
-        <div onClick={updateMemo}>
-            <Card className={props.classes.root} 
-                  key={props.id.toString()} 
+        <div onClick={updateMemo} className={props.classes.root}>
+            <Card key={props.id.toString()} 
                   variant="outlined"
                   style={memoColorStyle}> 
                 <CardContent >
