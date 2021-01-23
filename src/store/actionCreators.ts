@@ -1,7 +1,6 @@
 import { Dispatch } from "redux";
 import { AppActions, ADD_CATEGORY, REMOVE_CATEGORY, UPDATE_CATEGORY, SET_CATEGORIES } from "../model/actionTypes";
 import { CategoryProps, NewCategoryFormProps } from "../model/category";
-import { AppState } from "./configureStore";
 
 export function addCategory(category: NewCategoryFormProps): AppActions {
     return {

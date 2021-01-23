@@ -29,7 +29,8 @@ export default function CategoryForm (props: CategoryFormProps) {
 
     const handleSubmit = () => {
         // console.log(event);
-        props.update_parent(payload);
+        if(props.update_category === undefined) throw new Error("Function not available, forbidden call!");
+        props.update_category(payload);
         console.log("Color change sucessful");
     }
 
@@ -64,6 +65,7 @@ export default function CategoryForm (props: CategoryFormProps) {
             throw new Error("Network was not ok.")
         })
         .then((response: any) => {
+            props.update_parent(response);
             props.close_form();
         })
         .catch(() => {console.log("Error while deleting category...")});

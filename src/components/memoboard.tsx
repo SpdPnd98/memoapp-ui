@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {MemoboardProps} from "../model/memoboard";
 import Memos from "./memos";
 import { URL } from "../resources/constants";
-import { CSSProperties } from "react";
 
 export default function Memoboard(props: MemoboardProps) {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -49,9 +48,19 @@ export default function Memoboard(props: MemoboardProps) {
 
 
     if(isLoaded){
+        if (props.id === undefined && props.memoboard_name === undefined) {
+            return (
+                <div >
+                    {/* <h1>Overview</h1> */}
+                    {/* <p>Switch a memoboard:</p> */}
+                    <Memos categories={categories} 
+                        update_categories={updateCategories}/>
+                </div>
+            )
+        }
         return (
-        <div  style = {{margin:"0 0 0 7% "} as CSSProperties}>
-            <h1>{props.memoboard_name + " "} Memoboard</h1>
+        <div >
+            {/* <h1>{props.memoboard_name + " "} Memoboard</h1> */}
             {/* <p>Switch a memoboard:</p> */}
             <Memos memoboard_id={props.id} 
                    categories={categories} 

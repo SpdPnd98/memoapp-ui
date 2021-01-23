@@ -1,7 +1,7 @@
 import { CSSProperties, useState } from "react";
 import { MemoFormProps } from "../model/memo";
 import Button from "@material-ui/core/Button";
-import { TextField, Card, CardContent, CardActions} from "@material-ui/core";
+import { TextField, Card, CardContent, CardActions, Box} from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles"
 import { styles } from "../resources/styles";
 import CategoryDropDown from "./categoryDropDown";
@@ -77,52 +77,61 @@ function MemoFormComponent(props: MemoFormProps) {
     const formColorStyle: CSSProperties = props.id === NEWMEMO 
     ? {
         background: color,
-        width: "80%",
-        margin: "0.3%",
+        width: "100%",
+        margin: "2% 0 1% 0",
     }
     : {
         background: color,
+        margin: "0.3%",
     }
 
+    const boxSizeStyle: CSSProperties = props.id === NEWMEMO
+    ? {width: "87.5%",} : {width: "100%",};
+
     return (
-        <Card variant="outlined" className={props.classes.root} style={formColorStyle} >
-            <form onSubmit={event => handleSubmit(event, payload)}>
-                <CardContent>
-                    <TextField
-                        type="text"
-                        name="title"
-                        id="memoTitle"
-                        label="Title"
-                        onChange={e => setTitle(e.target.value)}
-                        value={title}
-                        fullWidth={true}
-                        ></TextField>
-                </CardContent>
-                <CardContent>
-                    <TextField
-                        multiline
-                        rows={5}
-                        fullWidth={true}
-                        name="body"
-                        id="memoBody"
-                        label="Body"
-                        onChange={e => setBody(e.target.value)}
-                        value={body}
-                        />
-                </CardContent>
-                <CardActions 
-                    className={props.classes.formDiv}
-                    >
-                    {renderUpdateButton()}
-                    {renderCancelButton()}
-                    <CategoryDropDown 
-                        categories={props.categories}
-                        update_categories={props.category_update}
-                        active_category={props.category_id} 
-                        update_memo={updateMemo}/>
-                </CardActions>
-            </form>
-        </Card>
+        <div>
+            <Box boxShadow={3} style={boxSizeStyle}>
+                <Card variant="outlined" className={props.classes.root} style={formColorStyle} >
+                    <form onSubmit={event => handleSubmit(event, payload)}>
+                        <CardContent>
+                            <TextField
+                                type="text"
+                                name="title"
+                                id="memoTitle"
+                                label="Title"
+                                onChange={e => setTitle(e.target.value)}
+                                value={title}
+                                fullWidth={true}
+                                focused={props.id === NEWMEMO}
+                                ></TextField>
+                        </CardContent>
+                        <CardContent>
+                            <TextField
+                                multiline
+                                rows={5}
+                                fullWidth={true}
+                                name="body"
+                                id="memoBody"
+                                label="Body"
+                                onChange={e => setBody(e.target.value)}
+                                value={body}
+                                />
+                        </CardContent>
+                        <CardActions 
+                            className={props.classes.formDiv}
+                            >
+                            {renderUpdateButton()}
+                            {renderCancelButton()}
+                            <CategoryDropDown 
+                                categories={props.categories}
+                                update_categories={props.category_update}
+                                active_category={props.category_id} 
+                                update_memo={updateMemo}/>
+                        </CardActions>
+                    </form>
+                </Card>
+            </Box>
+        </div>
     );
 }
 

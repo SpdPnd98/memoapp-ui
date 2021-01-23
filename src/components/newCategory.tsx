@@ -23,6 +23,7 @@ export default function NewCategory(props: NewCategoryProps) {
             throw new Error("Network was not ok.")
         })
         .then((response: any) => {
+            
             props.update_categories(response);
             closeForm();
         })
@@ -37,7 +38,8 @@ export default function NewCategory(props: NewCategoryProps) {
         <CategoryForm 
             name={""}
             color={"#FFFFFF"}
-            update_parent={createCategory}
+            update_category={createCategory}
+            update_parent={props.update_parent}
             close_form={closeForm} />
     )
 }

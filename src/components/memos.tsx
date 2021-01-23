@@ -6,11 +6,18 @@ import Memo from "./memo";
 import { URL, NOMEMO } from "../resources/constants";
 import { CategoryProps } from "../model/category";
 import CategoryFilter from "./categoryFilter";
+import { Snackbar } from "@material-ui/core";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 import Masonry from "react-masonry-component";
-import { Dispatch } from "redux";
+// import { Dispatch } from "redux";
+
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 const Memos: React.FC<MemosProps> = (props) => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [isReload, setIsReload] = useState<boolean>(false); // this bool is to trigger rerendering
@@ -19,6 +26,9 @@ const Memos: React.FC<MemosProps> = (props) => {
     const [editingId, setIsEditingId] = useState<number>(NOMEMO);
     const [categories, setCategories] = useState(props.categories);
     const [filter, setFilter] = useState<Array<any>>(props.categories);
+    const [deletedSnackbar, setDeletedSnackbar] = useState<boolean>(false);
+    const [createdSnackbar, setCreatedSnackbar] = useState<boolean>(false);
+    const [updatedSnackbar, setUpdatedSnackbar] = useState<boolean>(false);
 
     const defaultCategory = categories === undefined 
     ? {
@@ -62,23 +72,47 @@ const Memos: React.FC<MemosProps> = (props) => {
         );
     }
 
-    const updateMemos = (response: any) => {
-        console.log("updating array...");
-        console.log(JSON.stringify(response));
-        if(response.memos === undefined ) {
-            if (response.id !== undefined && response.editing !== undefined) {
+    const createMemo = (response: MemoProps) => {
+        setCreatedSnackbar(true);
+        console.log(response);
+        setMemos([...memos,
+                  response]);
+    }
+    
+    const handleCloseCreatedSnackbar = () => {
+        setCreatedSnackbar(false);
+    }
+
+    const updateMemos = (response: any) => { // either use any, or specify 2 possible types. 
+        //This is doubled as indication of which memo is active in edit mode
+        // console.log("updating array...");
+        // console.log(JSON.stringify(response));
+        if( response.editing !== undefined) {
                 setIsEditingId(response.id);
                 setIsEditGroup(response.editing);
                 setIsReload(!isReload);
-            } else {
-                console.log("There seems to be some error with passing things around");
-            }
         } else {
-            setMemos(response.memos);
+            setMemos(
+                memos.map((memo: MemoProps) => memo.id !== response.id ? memo : response)
+            );
             setIsEditingId(0);
             setIsEditGroup(false);
+            setUpdatedSnackbar(true);
         }
     };
+
+    const handleCloseUpdatedSnackbar = () => {
+        setUpdatedSnackbar(false);
+    }
+
+    const removeMemo = (response: {id: number}) => { // removes memo from list of memos
+        setMemos(memos.filter((memo: MemoProps) => memo.id !== response.id));
+        setDeletedSnackbar(true);
+    }
+
+    const handleCloseDeletedSnackbar = () => {
+        setDeletedSnackbar(false);
+    }
 
     const findCategory = (id: number) => {
         // returns the first category from the categories with the assoc id
@@ -106,6 +140,7 @@ const Memos: React.FC<MemosProps> = (props) => {
                 body={memo.body}
                 memoboard_id={memo.memoboard_id}
                 update_parent={updateMemos} 
+                remove_memo={removeMemo}
                 editing={editing}
                 key={memo.id}
 
@@ -120,7 +155,7 @@ const Memos: React.FC<MemosProps> = (props) => {
         );
     };
 
-    const dispatch: Dispatch<any> = useDispatch();
+    // const dispatch: Dispatch<any> = useDispatch();
     const handleCategoryUpdate = (event: any) => {
         props.update_categories(event);
         setCategories(event);
@@ -129,7 +164,9 @@ const Memos: React.FC<MemosProps> = (props) => {
     useEffect(() => {
         //fetch all memos
         if (!isLoaded) {
-            const url = URL + "/v1/memoboards/" + props.memoboard_id + "/memos";
+            const url = props.memoboard_id === undefined 
+                    ? URL + "/v1/memos"
+                    : URL + "/v1/memoboards/" + props.memoboard_id + "/memos" ;
             console.log(url);
             fetch(url)
                 .then(response => {
@@ -157,7 +194,8 @@ const Memos: React.FC<MemosProps> = (props) => {
                                 id = {editingId} 
                                 title={""}
                                 body={""}
-                                memoboard_id = {props.memoboard_id} 
+                                memoboard_id = {props.memoboard_id === undefined ? 1 : props.memoboard_id} 
+                                create_memo = {createMemo}
                                 update_parent  = {updateMemos}
 
                                 category_id={defaultCategory.id}
@@ -172,6 +210,28 @@ const Memos: React.FC<MemosProps> = (props) => {
         transitionDuration: 1,
     }
 
+    const snackbarCollection = () => {
+        return (
+            <>
+            <Snackbar open={deletedSnackbar} autoHideDuration={2000} onClose={handleCloseDeletedSnackbar}>
+                <Alert severity="success" onClose={handleCloseDeletedSnackbar} >
+                Memo Deleted!
+                </Alert>
+            </Snackbar>
+            <Snackbar open={createdSnackbar} autoHideDuration={2000} onClose={handleCloseCreatedSnackbar}>
+                <Alert severity="success" onClose={handleCloseCreatedSnackbar} >
+                Memo Created!
+                </Alert>
+            </Snackbar>
+            <Snackbar open={updatedSnackbar} autoHideDuration={2000} onClose={handleCloseUpdatedSnackbar}>
+                <Alert severity="success" onClose={handleCloseUpdatedSnackbar} >
+                Memo Updated!
+                </Alert>
+            </Snackbar>
+            </>
+        )
+    }
+
     if(isLoaded || isReload) {
         if(memos.length === 0) {
             return (
@@ -180,8 +240,9 @@ const Memos: React.FC<MemosProps> = (props) => {
                 {newMemoFrame}
                 <Masonry
                     options={masonryOptions}>
-                    {/* <p>You do not have any memos yet.</p> */}
+                    <p>You do not have any memos yet.</p>
                 </Masonry>
+                {snackbarCollection()}
                 </>
             );
         }
@@ -195,6 +256,7 @@ const Memos: React.FC<MemosProps> = (props) => {
                     options={masonryOptions}>
                     {allMemos}
                 </Masonry>
+                {snackbarCollection()}
             </div>
         );
         

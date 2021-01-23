@@ -1,6 +1,6 @@
 import { CategoryActionTypes } from "../model/actionTypes";
 import { ADD_CATEGORY, REMOVE_CATEGORY, SET_CATEGORIES, UPDATE_CATEGORY } from "../model/actionTypes";
-import { CategoryProps, NewCategoryFormProps } from "../model/category";
+import { CategoryProps } from "../model/category";
 
 const initialState: CategoryProps[] = [];
 

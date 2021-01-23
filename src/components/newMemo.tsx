@@ -17,7 +17,7 @@ function NewMemoComponent(props: NewMemoProps) {
         const url = URL + "/v1/memoboards/" 
                     + props.memoboard_id.toString() +"/memos";
 
-        console.log(payload);
+        // console.log(payload);
         fetch(url,{
             method: "POST",
             headers: {
@@ -34,8 +34,10 @@ function NewMemoComponent(props: NewMemoProps) {
             })
             .then(response => {
                 //re-render the app with the reply
+                // console.log(JSON.stringify(response));
+                props.create_memo({...payload, id: response.id});
                 setEditing(false);
-                props.update_parent(response);
+                // props.update_parent(response);
             })
             .catch(error => console.log(error.message));
     }
@@ -69,9 +71,10 @@ function NewMemoComponent(props: NewMemoProps) {
         )
     } else {
         return <TextField
+                    variant="outlined"
                     onClick={handleOnClick}
                     placeholder={"Add a memo..."}
-                    style={{margin: "0 0 0.3% 0"} as CSSProperties}/>
+                    style={{margin: "2% 0 1% 0"} as CSSProperties}/>
     }
     
 }

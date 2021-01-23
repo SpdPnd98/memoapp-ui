@@ -54,12 +54,12 @@ export default function CategoryFilter(props: {categories: CategoryProps[], upda
                             {
                             (selected as number[]).map((value) => (
                                 <Chip key={value} label={ props.categories.filter(
-                                        (category: CategoryProps) => category.id === (value))[0].name} />
+                                        (category: CategoryProps) => category.id === (value))[0].name} variant="outlined" />
                             ))}
                         </div>
                     )}
                 >
-                    {props.categories.map((category) => (
+                    {props.categories.map((category: CategoryProps) => (
                         <MenuItem key = {category.name} value={category.id}>
                             <ColorButton color={category.color} />{category.name}
                         </MenuItem>

@@ -5,6 +5,7 @@ export type MemoProps = {
     body: string;
     memoboard_id: number;
     update_parent: Function;
+    remove_memo: Function;
     classes: any;
     editing?: boolean;
     
@@ -21,6 +22,7 @@ export type NewMemoProps = {
     body: string;
     memoboard_id: number;
     update_parent: Function;
+    create_memo: Function;
     classes: any;
 
     category_id: number;

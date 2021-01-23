@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { withStyles, Theme } from "@material-ui/core/styles"
 import { CSSProperties } from "@material-ui/styles";
+import { Box } from "@material-ui/core";
 // import { createStyles } from "@material-ui/styles";
 
 const styles = {
@@ -32,18 +33,22 @@ function MemoComponent (props: MemoProps) {
         // console.log("Wait lah");
         const url = URL + "/v1/memoboards/" + props.memoboard_id.toString() + "/memos/" + props.id.toString();
         console.log(url);
+        const deletedItem = {
+            id: props.id,
+        }
+        props.remove_memo(deletedItem);
         fetch(url,
             {
                 method: "DELETE",
             })
             .then(response => {
                 if (response.ok) {
-                    return response.json();
+                    return;
                 }
                 throw new Error("Error in API call!");
             })
-            .then(response => {
-                props.update_parent(response);
+            .then(() => {
+                console.log("delete successful!");
             })
             .catch(e => {
                 console.log(e.toString());
@@ -67,6 +72,7 @@ function MemoComponent (props: MemoProps) {
                     body={props.body.replaceAll("<br></br>", "\n")}
                     memoboard_id={props.memoboard_id}
                     update_parent={props.update_parent}
+                    remove_memo={props.remove_memo}
                     classes={props.classes}
                     editing={true}
 
@@ -78,10 +84,15 @@ function MemoComponent (props: MemoProps) {
         ) 
     }
     return (
-        <div onClick={updateMemo} className={props.classes.root}>
-            <Card key={props.id.toString()} 
+        <Box onClick={updateMemo} 
+            className={props.classes.root} 
+            key={props.id.toString()}
+            boxShadow={3}>
+            <Card  
                   variant="outlined"
-                  style={memoColorStyle}> 
+                  style={memoColorStyle}
+                  raised={true}
+                  > 
                 <CardContent >
                     <Typography variant="body1">
                         {props.title}
@@ -107,7 +118,7 @@ function MemoComponent (props: MemoProps) {
                     </Button>
                 </CardActions>
             </Card>
-        </div> 
+        </Box> 
     );
 }
 

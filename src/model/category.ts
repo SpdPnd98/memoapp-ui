@@ -24,6 +24,7 @@ export type CategoryFormProps = {
     color:string;
 
     update_parent: Function;
+    update_category?: Function;
     close_form: Function;
 };
 

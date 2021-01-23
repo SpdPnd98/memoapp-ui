@@ -38,7 +38,8 @@ export default function EditCategory (props: EditCategoryProps) {
             name={props.name}
             color={props.color}
 
-            update_parent={updateCategory}
+            update_parent={props.update_categories}
+            update_category= {updateCategory}
             close_form={closeForm}
         ></CategoryForm>
     );

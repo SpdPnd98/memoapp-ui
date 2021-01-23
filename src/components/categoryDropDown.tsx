@@ -87,13 +87,14 @@ export default function CategoryDropDown (props: CategoriesDropDownProps) {
         //     } as CSSProperties;
         // });
         return (
-            categories.map((category : any) => {
+            categories.map((category : CategoryProps) => {
                 return(
                     <MenuItem  
                         // style={itemStyle(category)}
-                         >
-                        <p onClick={e => handleEditColor(e, category)}><ColorButton color={category.color}/></p>
-                        <p onClick={(event) => handleCategorySelected(event, category.id)}>{category.name}</p>
+                         key={category.id.toString() + "-category"}
+                         onClick={(event) => handleCategorySelected(event, category.id)}>
+                        <p onClick={e => {e.stopPropagation(); handleEditColor(e, category)}}><ColorButton color={category.color}/></p>
+                        <p >{category.name}</p>
                     </MenuItem>   
                 )
             })

@@ -19,13 +19,9 @@ function EditMemoComponent(props: MemoProps) {
                     + props.memoboard_id.toString() + "/memos/"
                     + props.id;
 
-        // if(title.length === 0 || body.length === 0) {
-        //     //show popup "create proper memo!"
-        //     console.log("error in update")
-        //     return;
-        // }
-        console.log(JSON.stringify(payload));
 
+        // console.log(JSON.stringify(payload));
+        props.update_parent(payload);
         fetch(url,{
             method: "PATCH",
             headers: {
@@ -42,7 +38,7 @@ function EditMemoComponent(props: MemoProps) {
             })
             .then(response => {
                 //re-render the app with the reply
-                props.update_parent(response);
+                console.log(JSON.stringify(response));
             })
             .catch(error => console.log(error.message));
     }
