@@ -9,20 +9,23 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-import { withStyles, Theme } from "@material-ui/core/styles"
-import { CSSProperties } from "@material-ui/styles";
+import { createStyles, CSSProperties, makeStyles } from "@material-ui/styles";
 import { Box } from "@material-ui/core";
 // import { createStyles } from "@material-ui/styles";
 
-const styles = {
-    root: {
-        width: "12%", 
-        margin: "0.3%"
-    },
-    
-};
+function Memo (props: MemoProps) {
+    const styles = makeStyles(
+        createStyles({
+            root: {
+                width: props.isMobile ? "28%" : "12%", 
+                margin: "0.3%"
+            },
+        }),
+    );
 
-function MemoComponent (props: MemoProps) {
+    const classes = styles();
+        
+
     const memoColorStyle: CSSProperties = {
         background: props.category_color,
         // width: "30%",
@@ -67,25 +70,29 @@ function MemoComponent (props: MemoProps) {
     if (props.editing) {
         return(
                 <EditMemo
-                    id={props.id}
-                    title={props.title}
-                    body={props.body.replaceAll("<br></br>", "\n")}
-                    memoboard_id={props.memoboard_id}
-                    update_parent={props.update_parent}
-                    remove_memo={props.remove_memo}
-                    classes={props.classes}
-                    editing={true}
-
-                    category_id={props.category_id}
-                    category_color={props.category_color}
-                    category_name={props.category_name}
-                    categories = {props.categories}
-                    category_update = {props.category_update} />
+                    {...props}
+                        editing={true}
+                        body={props.body.replaceAll("<br></br>", "\n")
+                    }/>
         ) 
     }
+    // id={props.id}
+    // title={props.title}
+    // memoboard_id={props.memoboard_id}
+    // update_parent={props.update_parent}
+    // remove_memo={props.remove_memo}
+    // classes={props.classes}
+    // isMobile={props.isMobile}
+
+    // category_id={props.category_id}
+    // category_color={props.category_color}
+    // category_name={props.category_name}
+    // categories = {props.categories}
+    // category_update = {props.category_update}
+
     return (
         <Box onClick={updateMemo} 
-            className={props.classes.root} 
+            className={classes.root} 
             key={props.id.toString()}
             boxShadow={3}>
             <Card  
@@ -122,4 +129,5 @@ function MemoComponent (props: MemoProps) {
     );
 }
 
-export default withStyles((theme: Theme) => styles)(MemoComponent);
+// export default withStyles((theme: Theme) => styles)(MemoComponent);
+export default Memo;

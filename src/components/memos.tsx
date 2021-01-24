@@ -3,7 +3,7 @@ import { MemosProps } from "../model/memos";
 import { MemoProps } from "../model/memo";
 import NewMemo from "./newMemo";
 import Memo from "./memo";
-import { URL, NOMEMO } from "../resources/constants";
+import { URL, NOMEMO, MOBILE_WIDTH } from "../resources/constants";
 import { CategoryProps } from "../model/category";
 import CategoryFilter from "./categoryFilter";
 import { Snackbar } from "@material-ui/core";
@@ -29,6 +29,13 @@ const Memos: React.FC<MemosProps> = (props) => {
     const [deletedSnackbar, setDeletedSnackbar] = useState<boolean>(false);
     const [createdSnackbar, setCreatedSnackbar] = useState<boolean>(false);
     const [updatedSnackbar, setUpdatedSnackbar] = useState<boolean>(false);
+
+    const [width, setWidth] = useState<number>(window.innerWidth);
+    let isMobile: boolean = (width <= MOBILE_WIDTH)
+
+    const handleWindowSizeChange = () => {
+        setWidth(window.innerWidth);
+    }
 
     const defaultCategory = categories === undefined 
     ? {
@@ -143,6 +150,7 @@ const Memos: React.FC<MemosProps> = (props) => {
                 remove_memo={removeMemo}
                 editing={editing}
                 key={memo.id}
+                isMobile={isMobile}
 
                 category_id={category.id}
                 category_color = {category.color}
@@ -162,8 +170,8 @@ const Memos: React.FC<MemosProps> = (props) => {
     }
 
     useEffect(() => {
-        //fetch all memos
         if (!isLoaded) {
+            //initialize memos
             const url = props.memoboard_id === undefined 
                     ? URL + "/v1/memos"
                     : URL + "/v1/memoboards/" + props.memoboard_id + "/memos" ;
@@ -185,7 +193,10 @@ const Memos: React.FC<MemosProps> = (props) => {
                         setMemos(response.memos);
                     }
                 })
-                .catch(errorDialog);    
+                .catch(errorDialog);
+
+            // get window sizes
+            window.addEventListener('resize', handleWindowSizeChange);    
         }// eslint-disable-next-line
     }, [memos, editingId]);
 

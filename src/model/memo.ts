@@ -6,7 +6,6 @@ export type MemoProps = {
     memoboard_id: number;
     update_parent: Function;
     remove_memo: Function;
-    classes: any;
     editing?: boolean;
     
     category_id: number;
@@ -14,6 +13,7 @@ export type MemoProps = {
     category_name: string;
     categories: Array<any>;
     category_update: Function;
+    isMobile: boolean;
 }
 
 export type NewMemoProps = {
