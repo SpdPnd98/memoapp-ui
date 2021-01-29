@@ -50,10 +50,15 @@ function Memoboards () {
             }// eslint-disable-next-line
     }, [id]);
 
-    const updateActiveMemoboard = (id: number) => {
+    const updateActiveMemoboard = (id: number | undefined) => {
         console.log(id);
         setIsLoaded(false);
         setId(id);
+    }
+
+    const updateAllMemoboards = (payload: MemoboardProps) => {
+        setMemoboards([...memoboards, payload]);
+        updateActiveMemoboard(payload.id);
     }
         
     const selectMemoboard = (id: number | undefined) => {
@@ -63,7 +68,8 @@ function Memoboards () {
                 <div style = {{margin:"0 0 0 7% "} as CSSProperties}>
                     <MemoboardDropDown 
                         update_active_memoboard={updateActiveMemoboard}
-                        memoboards={memoboards}/>
+                        memoboards={memoboards}
+                        update_all_memoboards={updateAllMemoboards}/>
                     <Memoboard />
                 </div>
             )
@@ -82,7 +88,8 @@ function Memoboards () {
                 <MemoboardDropDown 
                             update_active_memoboard={updateActiveMemoboard}
                             memoboards={memoboards}
-                            current_memoboard={currentMemoBoard.id}/>
+                            current_memoboard={currentMemoBoard.id}
+                            update_all_memoboards={updateAllMemoboards}/>
                 <Memoboard memoboard_name={currentMemoBoard.memoboard_name} 
                         id={currentMemoBoard.id}
                         />
