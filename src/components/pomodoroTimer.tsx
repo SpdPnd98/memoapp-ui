@@ -12,6 +12,7 @@ export default function PomodoroTime(props: PomodoroTimerProps) {
     const [sessions, setSessions] = useState(0);
     const [startTimer, setStartTimer] = useState(false);
     const [audio] = useState(new Audio("/ring.mp3"));
+    const [demoMode, setDemoMode] = useState(false);
 
     const resetSessions = () => {
         setSessions(0);
@@ -25,17 +26,11 @@ export default function PomodoroTime(props: PomodoroTimerProps) {
     }
 
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setTimer(newValue);
         setCurrentMode(newValue);
         setStartTimer(false);
         audio.pause();
-        if(newValue === NORMAL_TIMER) {
-            setTime(5);
-            setSessions(sessions + 1);
-        } else if(newValue === SHORT_BREAK) {
-            setTime(5);
-        } else if(newValue === LONG_BREAK) {
-            setTime(6);
-        }
+        console.log(newValue);
     }
 
     const generateTabs = () => {
@@ -52,18 +47,26 @@ export default function PomodoroTime(props: PomodoroTimerProps) {
         )
     }
 
+    const setTimer = (newValue: number) => {
+        if(demoMode) {
+            setTime(5);
+            if(newValue === NORMAL_TIMER) setSessions(sessions + 1);
+        }
+        else if(newValue === NORMAL_TIMER) {
+            setTime(25 * 60);
+            setSessions(sessions + 1);
+        } else if(newValue === SHORT_BREAK) {
+            setTime(5 * 60);
+        } else if(newValue === LONG_BREAK) {
+            setTime(15 * 60);
+        }
+    }
+
     useEffect(() => {
         console.log("Create new time in useEffect");
         let interval : any;
         if (startTimer) {
-            if(currentMode === NORMAL_TIMER) {
-                setTime(5);
-                setSessions(sessions + 1);
-            } else if(currentMode === SHORT_BREAK) {
-                setTime(5);
-            } else if(currentMode === LONG_BREAK) {
-                setTime(5);
-            }
+            setTimer(currentMode);
             interval = setInterval(() => setTime(time =>  {
                 if(time <= 0) {
                     audio.play();
@@ -98,13 +101,18 @@ export default function PomodoroTime(props: PomodoroTimerProps) {
         audio.pause();
     }
 
+    const demoModeSwitch = () => {
+        setDemoMode(!demoMode);
+    }
+
     return (
         <Dialog open={props.open} onClose={handleClose}>
             {generateTabs()}
-            <h1 style={{textAlign: "center"} as CSSProperties}>
+            <h1 style={{textAlign: "center"} as CSSProperties} >
                 {Math.floor(time / 60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping: false})
                      + " : " + (time % 60).toLocaleString('en-US', {minimumIntegerDigits:2, useGrouping:false})}</h1>
             <Button onClick={handleOnClick} >Start Time</Button>
+            <Button onClick={demoModeSwitch}> Short Demo</Button>
         </Dialog>
     )
 };

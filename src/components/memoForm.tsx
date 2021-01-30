@@ -82,11 +82,11 @@ function MemoFormComponent(props: MemoFormProps) {
     }
     : {
         background: color,
-        margin: "0.3%",
+        margin: "2% 0 1% 0",
     }
 
     const boxSizeStyle: CSSProperties = props.id === NEWMEMO
-    ? {width: "87.5%",} : {width: "100%",};
+    ? {width: "87.5%",} : {width: "100%"};
 
     return (
         <div>
