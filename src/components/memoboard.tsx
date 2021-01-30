@@ -63,6 +63,14 @@ export default function Memoboard(props: MemoboardProps) {
                     {/* <p>Switch a memoboard:</p> */}
                     <Memos categories={categories} 
                         update_categories={updateCategories}/>
+                    <Fab onClick={handleOpenTimer} 
+                        style={{right: 20, 
+                                bottom: 20,
+                                left: "auto", 
+                                position: "fixed", 
+                                backgroundColor: "#F5A360"} as CSSProperties} >
+                        <AccessAlarm/>
+                    </Fab>
                     <PomodoroTimer
                         open= {open}
                         close_timer ={() => setOpen(false)}
