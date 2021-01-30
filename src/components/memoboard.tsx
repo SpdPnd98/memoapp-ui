@@ -63,6 +63,10 @@ export default function Memoboard(props: MemoboardProps) {
                     {/* <p>Switch a memoboard:</p> */}
                     <Memos categories={categories} 
                         update_categories={updateCategories}/>
+                    <PomodoroTimer
+                        open= {open}
+                        close_timer ={() => setOpen(false)}
+                        />
                 </div>
             )
         }
