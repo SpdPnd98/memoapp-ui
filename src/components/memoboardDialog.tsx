@@ -1,4 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@material-ui/core";
+import { CSSProperties } from "@material-ui/styles";
 import { useState } from "react";
 import { NewMemoboardProps } from "../model/memoboard";
 
@@ -34,6 +35,10 @@ export default function MemoboardDialog (props: NewMemoboardProps) {
                     Cancel
                 </Button>
             </DialogActions>
+            <p style={{fontSize: "0.6rem", marginLeft: "5%",} as CSSProperties}>
+                {"*The word 'Memoboard' will be automatically added." }
+                <br />
+                {"**Memoboard name cannot be changed."}</p>
         </Dialog>
     )
 }

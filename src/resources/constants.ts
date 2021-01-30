@@ -6,3 +6,7 @@ export const NOMEMO = 0;
 export const MOBILE_WIDTH = 800;
 
 export const NEWMEMOBOARD = 0;
+
+export const NORMAL_TIMER = 1;
+export const SHORT_BREAK = 2;
+export const LONG_BREAK = 3;

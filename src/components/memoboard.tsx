@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import {MemoboardProps} from "../model/memoboard";
 import Memos from "./memos";
 import { URL } from "../resources/constants";
+import { Fab } from "@material-ui/core";
+import PomodoroTimer from "./pomodoroTimer";
+import { AccessAlarm } from "@material-ui/icons";
+import { CSSProperties } from "@material-ui/styles";
 
 export default function Memoboard(props: MemoboardProps) {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -47,6 +51,10 @@ export default function Memoboard(props: MemoboardProps) {
     }, [isLoaded]) //TODO: seems to be issues with passing json around, consider changing to redux
 
 
+    const [open, setOpen] = useState(false);
+    const handleOpenTimer = () => {
+        setOpen(true);
+    }
     if(isLoaded){
         if (props.id === undefined && props.memoboard_name === undefined) {
             return (
@@ -65,6 +73,18 @@ export default function Memoboard(props: MemoboardProps) {
             <Memos memoboard_id={props.id} 
                    categories={categories} 
                    update_categories={updateCategories}/>
+            <Fab onClick={handleOpenTimer} 
+                 style={{right: 20, 
+                         bottom: 20,
+                         left: "auto", 
+                         position: "fixed", 
+                         backgroundColor: "#F5A360"} as CSSProperties} >
+                <AccessAlarm/>
+            </Fab>
+            <PomodoroTimer
+                open= {open}
+                close_timer ={() => setOpen(false)}
+                />
         </div>
         );
     } else {
